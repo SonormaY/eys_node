@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background shield -->
+  <path d="M100 20 L160 50 V110 C160 150 100 180 100 180 C100 180 40 150 40 110 V50 Z" fill="hsl(220, 60%, 30%)"/>
+  
+  <!-- Lock body -->
+  <rect x="70" y="80" width="60" height="50" rx="8" fill="hsl(0, 0%, 100%)"/>
+  
+  <!-- Lock shackle -->
+  <path d="M82 80 V60 C82 45 118 45 118 60 V80" stroke="hsl(0, 0%, 100%)" stroke-width="10" fill="none"/>
+  
+  <!-- EYS text -->
+  <text x="100" y="112" font-family="Arial, sans-serif" font-size="20" fill="hsl(220, 70%, 45%)" text-anchor="middle" font-weight="bold">EYS</text>
+  
+  <!-- Encryption dots pattern -->
+  <circle cx="60" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+  <circle cx="75" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+  <circle cx="125" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+  <circle cx="140" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+</svg>

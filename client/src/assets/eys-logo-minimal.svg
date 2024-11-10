@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Lock body -->
+  <rect x="60" y="80" width="80" height="70" rx="10" fill="hsl(220, 60%, 30%)"/>
+  
+  <!-- Lock shackle -->
+  <path d="M75 80 V50 C75 30 125 30 125 50 V80" stroke="hsl(220, 60%, 30%)" stroke-width="12" fill="none"/>
+  
+  <!-- EYS text -->
+  <text x="100" y="120" font-family="Arial, sans-serif" font-size="24" fill="hsl(0, 0%, 100%)" text-anchor="middle" font-weight="bold">EYS</text>
+  
+  <!-- Binary circles -->
+  <circle cx="45" cy="140" r="4" fill="hsl(220, 70%, 90%)"/>
+  <circle cx="155" cy="140" r="4" fill="hsl(220, 70%, 90%)"/>
+  <circle cx="60" cy="140" r="4" fill="hsl(220, 70%, 90%)"/>
+  <circle cx="140" cy="140" r="4" fill="hsl(220, 70%, 90%)"/>
+</svg>

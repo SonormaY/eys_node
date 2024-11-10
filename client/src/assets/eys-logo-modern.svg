@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="90" fill="hsl(220, 15%, 95%)"/>
+  
+  <!-- Stylized lock shape -->
+  <path d="M70 90 V70 C70 40 130 40 130 70 V90" stroke="hsl(220, 60%, 30%)" stroke-width="12" stroke-linecap="round" fill="none"/>
+  
+  <!-- Modern lock body -->
+  <rect x="60" y="90" width="80" height="60" rx="30" fill="hsl(220, 60%, 30%)"/>
+  
+  <!-- EYS text -->
+  <text x="100" y="130" font-family="Arial, sans-serif" font-size="24" fill="hsl(0, 0%, 100%)" text-anchor="middle" font-weight="bold">EYS</text>
+  
+  <!-- Decorative elements -->
+  <path d="M45 100 L55 100" stroke="hsl(220, 70%, 45%)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M145 100 L155 100" stroke="hsl(220, 70%, 45%)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M45 110 L55 110" stroke="hsl(220, 70%, 45%)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M145 110 L155 110" stroke="hsl(220, 70%, 45%)" stroke-width="3" stroke-linecap="round"/>
+</svg>

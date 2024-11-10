@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 100">
+  <!-- Background Rectangle -->
+  <!-- <rect x="0" y="0" width="500" height="150" rx="20" fill="hsl(220, 15%, 95%)"/> -->
+  
+  <!-- Left side: Lock Icon in Shield -->
+  <g transform="translate(30, 25) scale(0.4)">
+    <!-- Shield background -->
+    <path d="M100 20 L160 50 V110 C160 150 100 180 100 180 C100 180 40 150 40 110 V50 Z" fill="hsl(220, 60%, 30%)"/>
+    
+    <!-- Lock body -->
+    <rect x="70" y="80" width="60" height="50" rx="8" fill="hsl(0, 0%, 100%)"/>
+    
+    <!-- Lock shackle -->
+    <path d="M82 80 V60 C82 45 118 45 118 60 V80" stroke="hsl(0, 0%, 100%)" stroke-width="10" fill="none"/>
+    
+    <!-- EYS text -->
+    <text x="100" y="112" font-family="Arial, sans-serif" font-size="20" fill="hsl(220, 70%, 45%)" text-anchor="middle" font-weight="bold">EYS</text>
+    
+    <!-- Encryption dots -->
+    <circle cx="60" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+    <circle cx="75" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+    <circle cx="125" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+    <circle cx="140" cy="140" r="3" fill="hsl(220, 70%, 90%)"/>
+  </g>
+  
+  <!-- Right side: Text -->
+  <g transform="translate(180, 0)">
+    <!-- Main title -->
+    <text x="0" y="65" font-family="Arial, sans-serif" font-size="36" fill="hsl(220, 60%, 30%)" font-weight="bold">Encrypt Your Stuff</text>
+    
+    <!-- Subtitle with encryption symbols -->
+    <text x="0" y="90" font-family="Arial, sans-serif" font-size="16" fill="hsl(220, 70%, 45%)">Protect • Secure • Encrypt</text>
+  </g>
+  
+  <!-- Decorative elements -->
+  <path d="M160 60 L170 60" stroke="hsl(220, 70%, 45%)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M160 70 L170 70" stroke="hsl(220, 70%, 45%)" stroke-width="2" stroke-linecap="round"/>
+  <path d="M160 80 L170 80" stroke="hsl(220, 70%, 45%)" stroke-width="2" stroke-linecap="round"/>
+</svg>
