@@ -54,7 +54,7 @@ const Register = () => {
             return
         }
 
-        axios.post('http://localhost:3001/register', {
+        axios.post('http://localhost:3001/auth/register', {
             email: email,
             username: username,
             password: password
@@ -91,7 +91,7 @@ const Register = () => {
 
                     <div className="footerDiv flex">
                         <span className="text">Already have an account?</span>
-                        <Link to="/" className="link">
+                        <Link to="/login" className="link">
                             <button className="btn">Login</button>
                         </Link>
                     </div>

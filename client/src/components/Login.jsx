@@ -26,15 +26,12 @@ const Login = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post('http://localhost:3001/login', {
+        axios.post('http://localhost:3001/auth/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {
             console.log(response)
-            if (response.data.message) {
-                navigateTo('/dashboard')
-            }
-            else if (response.data.error) {
+            if (response.data.error) {
                 setLoginStatus(response.data.error)
                 setStatusHolder('showMessage')
             }
