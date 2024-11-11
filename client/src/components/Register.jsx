@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate, Navigate} from 'react-router-dom'
+import { AuthContext } from "./AuthContext";
 import axios from 'axios'
 
 // assets
@@ -32,7 +33,14 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [registerStatus, setRegisterStatus] = useState('')
     const [statusHolder, setStatusHolder] = useState('message')
+    const { token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
+    if (loading) {
+        return null;
+    }
+    if (token) {
+    return <Navigate to="/" replace />;
+    }
 
     const createUser = () => {
         if (!email || !username || !password) {

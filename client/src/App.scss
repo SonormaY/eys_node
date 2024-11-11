@@ -466,6 +466,18 @@ img, video{
               }
             }
           }
+
+          .logoutItem{
+            padding: 0.2rem 1rem;
+            width: 10%;
+            cursor: pointer;
+            color: red;
+            font-weight: 500;
+            transition: 0;
+            //make the logout button appear on the bottom of the sidebar
+            position: absolute;
+            bottom: 1rem;
+          }
         }
       }
     }
@@ -583,8 +595,6 @@ img, video{
       margin-bottom: 0.5rem;
     }
   }
-
-  // ... (existing styles)
 
 .file-input-wrapper {
   display: flex;

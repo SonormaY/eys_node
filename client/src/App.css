@@ -375,6 +375,16 @@ img, video {
 .dashboard .sidebar .menuDiv .menuLists .listItem.active .menuLink {
   color: var(--primaryColor);
 }
+.dashboard .sidebar .menuDiv .menuLists .logoutItem {
+  padding: 0.2rem 1rem;
+  width: 10%;
+  cursor: pointer;
+  color: red;
+  font-weight: 500;
+  transition: 0;
+  position: absolute;
+  bottom: 1rem;
+}
 .dashboard .content {
   width: 82%;
   height: 100%;

@@ -1,6 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, useNavigate, Navigate} from 'react-router-dom'
+import { AuthContext } from "./AuthContext";
 import axios from 'axios'
 
 // assets
@@ -17,7 +18,15 @@ const Login = () => {
     const [loginPassword, setLoginPassword] = useState('')
     const [loginStatus, setLoginStatus] = useState('')
     const [statusHolder, setStatusHolder] = useState('message')
+    const { setToken, token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
+
+    if (loading) {
+        return null;
+    }
+    if (token) {
+    return <Navigate to="/" replace />;
+    }
 
     const loginUser = () => {
         // basic validation
@@ -30,6 +39,11 @@ const Login = () => {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {
+            if (response.data.token) {
+                setToken(response.data.token)
+                localStorage.setItem('token', response.data.token)
+                navigateTo('/')
+            }
             console.log(response)
             if (response.data.error) {
                 setLoginStatus(response.data.error)

@@ -2,6 +2,7 @@ import './App.css'
 import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import Register from './components/Register'
+import { AuthProvider } from './components/AuthContext'
 
 import {
   createBrowserRouter,
@@ -26,7 +27,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <div>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider> 
     </div>
   )
 }

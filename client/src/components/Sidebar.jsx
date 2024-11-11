@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState,  useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from './AuthContext';
 
 // Icons
 import logo_detailed from './../assets/eys-logo-detailed.svg';
 import { MdEnhancedEncryption } from "react-icons/md";
 import { TbLockOpen, TbUsers, TbClipboardList } from "react-icons/tb";
+import { FiLogOut } from "react-icons/fi";
 
 const Sidebar = ({ onModuleChange }) => {
 
   const [activeModule, setActiveModule] = useState('encrypt');
+  const { setToken } = useContext(AuthContext); // Access setToken to clear token on logout
   const navigate = useNavigate();
 
   const handleModuleClick = (module) => {
     setActiveModule(module);
     onModuleChange(module);
+  };
+
+  const handleLogout = () => {
+    setToken(null);
+    localStorage.removeItem('token');
+    navigate('/login'); // Redirect to login page after logout
   };
 
   return (
@@ -62,6 +71,15 @@ const Sidebar = ({ onModuleChange }) => {
             >
               <TbUsers className="icon" />
               <span className="smallText">All Encryptions</span>
+            </div>
+          </li>
+          <li className='logoutItem'>
+            <div
+              className="menuLink flex"
+              onClick={handleLogout}
+            >
+              <FiLogOut className="icon" />
+              <span className="smallText">Logout</span>
             </div>
           </li>
         </ul>
