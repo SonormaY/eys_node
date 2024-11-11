@@ -1,14 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react';
+import Sidebar from './Sidebar';
+import EncryptTab from './EncryptTab';
+import DecryptTab from './DecryptTab';
+import HistoryTab from './HistoryTab';
+// import AllEncryptionsTab from './AllEncryptionsTab';
 
 const Dashboard = () => {
-  return (
-    <div>
-        Dashboard Page
-        <div>
-            <a href="/">to login</a>
-        </div>
-    </div>
-  )
-}
+  const [currentModule, setCurrentModule] = useState('encrypt');
 
-export default Dashboard
+  const handleModuleChange = (module) => {
+    setCurrentModule(module);
+  };
+
+  const renderModule = () => {
+    switch (currentModule) {
+      case 'encrypt':
+        return <EncryptTab />;
+      case 'decrypt':
+        return <DecryptTab />;
+      case 'history':
+        return <HistoryTab />;
+      case 'all-encryptions':
+        return <AllEncryptionsTab />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="dashboard flex">
+      <Sidebar onModuleChange={handleModuleChange} />
+      <div className="content flex-1">
+        {renderModule()}
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
