@@ -21,6 +21,12 @@ fi
 # Step 2: Build the client
 echo -e "${YELLOW}Building the client...${NC}"
 cd client || exit
+if npm install --silent; then
+  echo -e "${GREEN}Client dependencies installed successfully.${NC}"
+else
+  echo -e "${RED}Failed to install client dependencies.${NC}"
+  exit 1
+fi
 if npm run build --silent; then
   echo -e "${GREEN}Client build completed successfully.${NC}"
 else
