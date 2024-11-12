@@ -62,7 +62,7 @@ const Register = () => {
             return
         }
 
-        axios.post('http://localhost:3001/auth/register', {
+        axios.post('http://rpi4.uno/api/auth/register', {
             email: email,
             username: username,
             password: password

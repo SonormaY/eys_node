@@ -1,24 +1,41 @@
+// db.config.js
 require('dotenv').config();
 
-const mysql = require('mysql2');
+const { Pool } = require('pg');
 
-const db = mysql.createConnection({
+const pool = new Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
-    password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
-    authPlugins: {
-        mysql_clear_password: () => () => Buffer.from(process.env.DB_PASSWORD + '\0')
-    }
+    password: process.env.DB_PASSWORD,
+    port: process.env.DB_PORT || 5432,
+    // Connection pool settings
+    max: 20, // Maximum number of clients in the pool
+    idleTimeoutMillis: 30000, // How long a client is allowed to remain idle before being closed
+    connectionTimeoutMillis: 2000, // How long to wait for a connection
+    ssl: process.env.DB_SSL === 'true' ? {
+        rejectUnauthorized: false
+    } : undefined
+});
+
+// The pool will emit an error on behalf of any idle clients
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err);
+    process.exit(-1);
 });
 
 // Test the connection
-db.connect((err) => {
-    if (err) {
+async function testConnection() {
+    try {
+        const client = await pool.connect();
+        console.log('Successfully connected to database');
+        client.release();
+    } catch (err) {
         console.error('Error connecting to the database:', err);
-        return;
+        throw err;
     }
-    console.log('Successfully connected to database');
-});
+}
 
-module.exports = db;
+testConnection().catch(console.error);
+
+module.exports = pool;

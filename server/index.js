@@ -20,7 +20,6 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
 
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })

@@ -35,7 +35,7 @@ const Login = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post('http://localhost:3001/auth/login', {
+        axios.post('http://rpi4.uno/api/auth/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {
