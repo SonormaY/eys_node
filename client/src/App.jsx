@@ -24,9 +24,6 @@ const router = createBrowserRouter([
   }
 ])
 
-export const localUrl = 'http://localhost:3001/'
-export const globalUrl = 'https://rpi4.uno/api/'
-
 function App() {
   return (
     <div>

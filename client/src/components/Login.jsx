@@ -2,7 +2,6 @@ import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
 import {Link, useNavigate, Navigate} from 'react-router-dom'
 import { AuthContext } from "./AuthContext";
-import { localUrl, globalUrl } from './../App'
 import axios from 'axios'
 
 // assets
@@ -46,7 +45,7 @@ const Login = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post(localUrl + 'auth/login', {
+        axios.post(process.env.REACT_APP_API_URL + 'auth/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {
