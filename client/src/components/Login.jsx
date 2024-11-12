@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
 import {Link, useNavigate, Navigate} from 'react-router-dom'
 import { AuthContext } from "./AuthContext";
+import dotenv from 'dotenv'
 import axios from 'axios'
 
 // assets
@@ -44,8 +45,8 @@ const Login = () => {
             setLoginStatus('Please fill in all fields')
             setStatusHolder('showMessage')
             return
-        }
-        axios.post(process.env.REACT_APP_API_URL + 'auth/login', {
+        }   
+        axios.post(import.meta.env.VITE_API_URL + 'auth/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {

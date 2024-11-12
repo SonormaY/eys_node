@@ -71,7 +71,7 @@ const Register = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post(process.env.REACT_APP_API_URL + 'auth/register', {
+        axios.post(import.meta.env.VITE_API_URL + 'auth/register', {
             email: email,
             username: username,
             password: password
