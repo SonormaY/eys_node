@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
 import {Link, useNavigate, Navigate} from 'react-router-dom'
 import { AuthContext } from "./AuthContext";
+import { localUrl, globalUrl } from './../App'
 import axios from 'axios'
 
 // assets
@@ -20,6 +21,7 @@ const Login = () => {
     const [statusHolder, setStatusHolder] = useState('message')
     const { setToken, token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
+    
 
     useEffect(() => {
         if (loginStatus) {
@@ -44,7 +46,7 @@ const Login = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post('http://localhost:3001/auth/login', {
+        axios.post(localUrl + 'auth/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {

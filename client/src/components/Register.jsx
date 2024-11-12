@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
 import {Link, useNavigate, Navigate} from 'react-router-dom'
 import { AuthContext } from "./AuthContext";
+import { localUrl, globalUrl } from './../App'
 import axios from 'axios'
 
 // assets
@@ -71,8 +72,7 @@ const Register = () => {
             setStatusHolder('showMessage')
             return
         }
-
-        axios.post('http://localhost:3001/auth/register', {
+        axios.post(localUrl + 'auth/register', {
             email: email,
             username: username,
             password: password
