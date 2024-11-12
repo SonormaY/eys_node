@@ -7,7 +7,7 @@ git pull
 cd client
 npm run build
 sudo rm -rf /var/www/client
-sudo cp -r build /var/www/client
+sudo cp -r dist /var/www/client
 
 # 2. run server in tmux session
 cd ../server
