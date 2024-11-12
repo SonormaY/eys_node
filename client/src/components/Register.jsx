@@ -72,7 +72,6 @@ const Register = () => {
             setStatusHolder('showMessage')
             return
         }
-
         axios.post(localUrl + 'auth/register', {
             email: email,
             username: username,
