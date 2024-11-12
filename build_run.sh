@@ -8,7 +8,7 @@ sudo cp -r dist /var/www/client
 
 # 3. run server in tmux session
 cd ../server
-if tmux has-session -t server; then
+if tmux ls | grep -q "^server:"; then
     tmux kill-session -t server
 fi
 tmux new-session -d -s server 'npm run deploy'
