@@ -24,7 +24,7 @@ function ensureSecure(req, res, next) {
 }
 
 app.use(ensureSecure);
-
+app.use(express.json());
 app.use('/auth', authRoutes);
 app.use(cors({
   origin: 'https://rpi4.uno',
