@@ -10,7 +10,7 @@ echo -e "${YELLOW}Starting deployment...${NC}"
 
 # Step 1: Pull latest code from repository
 echo -e "${YELLOW}Pulling latest code...${NC}"
-cd /path/to/your/project || exit
+cd /home/sonorma/eys_node || exit
 if git pull -q origin main; then
   echo -e "${GREEN}Code pulled successfully.${NC}"
 else
