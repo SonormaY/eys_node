@@ -1,4 +1,3 @@
-// auth.js
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
@@ -15,7 +14,6 @@ router.post('/register', async (req, res) => {
         // Start transaction
         await client.query('BEGIN');
         
-        // Check if email already exists
         const emailCheck = await client.query(
             'SELECT * FROM users WHERE email = $1',
             [email]
@@ -25,7 +23,6 @@ router.post('/register', async (req, res) => {
             return res.send({ error: 'Email already exists' });
         }
         
-        // Check if username already exists
         const usernameCheck = await client.query(
             'SELECT * FROM users WHERE username = $1',
             [username]
@@ -35,10 +32,8 @@ router.post('/register', async (req, res) => {
             return res.send({ error: 'Username already exists' });
         }
         
-        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
         
-        // Insert new user
         const insertQuery = `
             INSERT INTO users (email, username, passwd_hash, role)
             VALUES ($1, $2, $3, $4)
@@ -52,7 +47,6 @@ router.post('/register', async (req, res) => {
             'user'
         ]);
         
-        // Commit transaction
         await client.query('COMMIT');
         
         console.log('User registered');
@@ -68,7 +62,6 @@ router.post('/register', async (req, res) => {
         res.json({ token });
         
     } catch (err) {
-        // Rollback in case of error
         await client.query('ROLLBACK');
         console.error('Error during registration:', err);
         res.status(500).send({ error: 'Internal server error during registration' });

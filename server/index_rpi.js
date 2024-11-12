@@ -16,7 +16,6 @@ const httpsServer = https.createServer(credentials, app);
 
 function ensureSecure(req, res, next) {
   if (req.secure) {
-      // Request is already secure (HTTPS)
       return next();
   }
   // Redirect to HTTPS version of the URL
@@ -40,27 +39,3 @@ app.use(cors({
 httpsServer.listen(8443, () => {
   console.log(`Server is running on port ${8443}`)
 })
-
-
-
-
-
-
-// console.clear();
-// app.use(express.json());
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
-// app.use('/auth', authRoutes);
-// app.use(cors({
-//   origin: 'https://rpi4.uno',
-//   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-//   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
-// }));
-
-
-// app.listen(port, () => {
-//   console.log(`Server is running on port ${port}`)
-// })
