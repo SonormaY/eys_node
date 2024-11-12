@@ -44,7 +44,8 @@ export const FileInput = ({ label, onChange, className, maxSize = 200 * 1024 * 1
   };
 
   const handleClick = () => {
-    
+    const fileInput = document.querySelector('.file-input');
+    fileInput.click();
   };
 
   return (
