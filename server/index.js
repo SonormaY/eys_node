@@ -1,8 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const bcrypt = require('bcrypt');
-const db = require('./config/db.config');
 const authRoutes = require('./routes/auth');
 const port = process.env.PORT || 3001;
 

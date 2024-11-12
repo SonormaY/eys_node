@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from 'react'
 import './../App.css'
 import {Link, useNavigate, Navigate} from 'react-router-dom'
 import { AuthContext } from "./AuthContext";
+import { localUrl, globalUrl } from './../App'
 import axios from 'axios'
 
 // assets
@@ -20,6 +21,16 @@ const Login = () => {
     const [statusHolder, setStatusHolder] = useState('message')
     const { setToken, token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
+    
+
+    useEffect(() => {
+        if (loginStatus) {
+            setTimeout(() => {
+                setLoginStatus('')
+                setStatusHolder('message')
+            }, 10000)
+        }
+    }, [loginStatus]);
 
     if (loading) {
         return null;
@@ -35,7 +46,7 @@ const Login = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post('http://rpi4.uno/api/auth/login', {
+        axios.post(localUrl + 'auth/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {
@@ -51,15 +62,6 @@ const Login = () => {
             }
         })
     }
-
-    useEffect(() => {
-        if (loginStatus) {
-            setTimeout(() => {
-                setLoginStatus('')
-                setStatusHolder('message')
-            }, 10000)
-        }
-    })
 
     return (
         <div className='loginPage flex'>
