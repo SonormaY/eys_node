@@ -35,6 +35,16 @@ const Register = () => {
     const [statusHolder, setStatusHolder] = useState('message')
     const { token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
+
+    useEffect(() => {
+        if (registerStatus) {
+            setTimeout(() => {
+                setRegisterStatus('')
+                setStatusHolder('message')
+            }, 10000)
+        }
+    }, [registerStatus])
+
     if (loading) {
         return null;
     }
@@ -77,15 +87,6 @@ const Register = () => {
             }
         })
     }
-
-    useEffect(() => {
-        if (registerStatus) {
-            setTimeout(() => {
-                setRegisterStatus('')
-                setStatusHolder('message')
-            }, 10000)
-        }
-    })
 
     return (
         <div className='registerPage flex'>

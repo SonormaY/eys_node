@@ -21,6 +21,15 @@ const Login = () => {
     const { setToken, token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
 
+    useEffect(() => {
+        if (loginStatus) {
+            setTimeout(() => {
+                setLoginStatus('')
+                setStatusHolder('message')
+            }, 10000)
+        }
+    }, [loginStatus]);
+
     if (loading) {
         return null;
     }
@@ -51,15 +60,6 @@ const Login = () => {
             }
         })
     }
-
-    useEffect(() => {
-        if (loginStatus) {
-            setTimeout(() => {
-                setLoginStatus('')
-                setStatusHolder('message')
-            }, 10000)
-        }
-    })
 
     return (
         <div className='loginPage flex'>
