@@ -12,12 +12,6 @@ const certificate = fs.readFileSync('./certs/cert.pem', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 // create an https server
-app.use('/auth', authRoutes);
-app.use(cors({
-  origin: 'https://rpi4.uno',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
-}));
 const httpsServer = https.createServer(credentials, app);
 
 function ensureSecure(req, res, next) {
@@ -30,6 +24,13 @@ function ensureSecure(req, res, next) {
 }
 
 app.use(ensureSecure);
+
+app.use('/auth', authRoutes);
+app.use(cors({
+  origin: 'https://rpi4.uno',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
+}));
 
 httpsServer.listen(8443, () => {
   console.log(`Server is running on port ${8443}`)
