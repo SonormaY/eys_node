@@ -25,8 +25,8 @@ function ensureSecure(req, res, next) {
 
 app.use(ensureSecure);
 
-httpsServer.listen(443, () => {
-  console.log(`Server is running on port ${443}`)
+httpsServer.listen(8443, () => {
+  console.log(`Server is running on port ${8443}`)
 })
 
 
