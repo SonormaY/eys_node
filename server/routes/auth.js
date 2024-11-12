@@ -56,15 +56,16 @@ router.post('/register', async (req, res) => {
         await client.query('COMMIT');
         
         console.log('User registered');
-        res.send({
-            message: 'User registered',
-            user: {
+        const token = jwt.sign(
+            {
                 id: result.rows[0].id,
                 email: result.rows[0].email,
-                username: result.rows[0].username,
                 role: result.rows[0].role
-            }
-        });
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: '2h' }
+        );
+        res.json({ token });
         
     } catch (err) {
         // Rollback in case of error

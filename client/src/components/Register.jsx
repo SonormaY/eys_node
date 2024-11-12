@@ -34,7 +34,7 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [registerStatus, setRegisterStatus] = useState('')
     const [statusHolder, setStatusHolder] = useState('message')
-    const { token, loading } = useContext(AuthContext);
+    const { setToken, token, loading } = useContext(AuthContext);
     const navigateTo = useNavigate()
 
     useEffect(() => {
@@ -77,8 +77,9 @@ const Register = () => {
             username: username,
             password: password
         }).then((response) => {
-            console.log(response)
-            if (response.data.message) {
+            if (response.data.token) {
+                setToken(response.data.token)
+                localStorage.setItem('token', response.data.token)
                 navigateTo('/')
             }
             else if (response.data.error) {
