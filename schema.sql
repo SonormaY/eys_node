@@ -8,3 +8,11 @@ CREATE TABLE users (
     role VARCHAR(50) NOT NULL,
     key VARCHAR(256) NOT NULL,
 );
+
+CREATE TABLE files (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    filename VARCHAR(255) NOT NULL,
+    original_filename VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+);

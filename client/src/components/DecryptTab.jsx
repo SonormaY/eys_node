@@ -8,18 +8,18 @@ import { Button } from './Button';
 import { FileInput } from './FileInput';
 
 const DecryptTab = () => {
-  const [inputFile, setInputFile] = useState(null);
+  const [inputDecryptFile, setInputDecryptFile] = useState(null);
   const [decryptedData, setDecryptedData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const { token } = useContext(AuthContext);
 
   const handleDecrypt = async () => {
-    if (!inputFile) {
+    if (!inputDecryptFile) {
       setError('Please select a file to decrypt.');
       return;
     }
-    const fileSignature = await getFileSignature(inputFile);
+    const fileSignature = await getFileSignature(inputDecryptFile);
     if (!fileSignature.startsWith('encryptedbyeys')) {
       setError('File is already decrypted');
       return;
@@ -29,7 +29,7 @@ const DecryptTab = () => {
 
     try {
       const formData = new FormData();
-      formData.append('file', inputFile);
+      formData.append('file', inputDecryptFile);
       formData.append('token', token);
       
       const response = await axios.post(import.meta.env.VITE_API_URL + 'files/decrypt', formData, {
@@ -64,8 +64,7 @@ const DecryptTab = () => {
       <CardContent>
         <div className="grid">
           <FileInput
-            label="Select File"
-            onChange={(file) => setInputFile(file)}
+            onChange={(file) => setInputDecryptFile(file)}
           />
           <Button onClick={handleDecrypt} disabled={isLoading}>
             {isLoading ? 'Decrypting...' : 'Decrypt'}

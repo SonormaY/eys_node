@@ -21,26 +21,14 @@ const Dashboard = () => {
     setCurrentModule(module);
   };
 
-  const renderModule = () => {
-    switch (currentModule) {
-      case 'encrypt':
-        return <EncryptTab />;
-      case 'decrypt':
-        return <DecryptTab />;
-      case 'history':
-        return <HistoryTab />;
-      case 'all-encryptions':
-        return <AllEncryptionsTab />;
-      default:
-        return null;
-    }
-  };
-
   return (
     <div className="dashboard flex">
       <Sidebar onModuleChange={handleModuleChange} />
       <div className="content flex-1">
-        {renderModule()}
+        <div style={{ display: currentModule === 'encrypt' ? 'block' : 'none' }}><EncryptTab /></div>
+        <div style={{ display: currentModule === 'decrypt' ? 'block' : 'none' }}><DecryptTab /></div>
+        <div style={{ display: currentModule === 'history' ? 'block' : 'none' }}><HistoryTab /></div>
+        {/* <div><AllEncryptionsTab /></div> */}
       </div>
     </div>
   );

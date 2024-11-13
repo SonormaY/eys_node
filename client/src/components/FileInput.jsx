@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { FaUpload } from 'react-icons/fa';
 
 // maxSize is in bytes = 200MB
-export const FileInput = ({ label, onChange, className, maxSize = 1000 * 1024 * 1024 }) => {
+export const FileInput = ({ onChange, className, maxSize = 1000 * 1024 * 1024 }) => {
   const [error, setError] = useState(null);
   const [fileName, setFileName] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef(null);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -45,7 +46,7 @@ export const FileInput = ({ label, onChange, className, maxSize = 1000 * 1024 * 
   };
 
   const handleClick = () => {
-    document.querySelector('.file-input').click();
+    fileInputRef.current?.click();
   };
 
   return (
@@ -58,12 +59,13 @@ export const FileInput = ({ label, onChange, className, maxSize = 1000 * 1024 * 
     >
       <input
         type="file"
+        ref={fileInputRef}
         className="file-input"
         onChange={handleFileChange}
       />
       <label className="file-label">
         <FaUpload className="icon" />
-        <span>Drag and drop or click to upload</span>
+        <span style={{cursor: 'pointer'}}>Drag and drop or click to upload</span>
       </label>
       {fileName && <div className="file-name">{fileName}</div>}
       {error && <div className="error">{error}</div>}

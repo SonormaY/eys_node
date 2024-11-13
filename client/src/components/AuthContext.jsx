@@ -6,6 +6,9 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true); 
 
+  // delete token after expiration
+  
+
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);

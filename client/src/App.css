@@ -416,6 +416,9 @@ img, video {
   color: red;
   font-size: var(--normalFontSize);
 }
+.dashboard .content .hidden-tab {
+  display: none;
+}
 
 .card {
   background-color: var(--whiteColor);

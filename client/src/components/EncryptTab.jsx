@@ -8,18 +8,18 @@ import { Button } from './Button';
 import { FileInput } from './FileInput';
 
 const EncryptTab = () => {
-  const [inputFile, setInputFile] = useState(null);
+  const [inputEncryptFile, setInputEncryptFile] = useState(null);
   const [encryptedData, setEncryptedData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const { token } = useContext(AuthContext);
 
   const handleEncrypt = async () => {
-    if (!inputFile) {
+    if (!inputEncryptFile) {
       setError('Please select a file to encrypt.');
       return;
     }
-    const fileSignature = await getFileSignature(inputFile);
+    const fileSignature = await getFileSignature(inputEncryptFile);
     if (fileSignature.startsWith('encryptedbyeys')) {
       setError('File is already encrypted');
       return;
@@ -30,9 +30,9 @@ const EncryptTab = () => {
     try {
       const formData = new FormData();
       // if detect cyrillic symbols in file name, replace it with transliteration
-      const fileName = inputFile.name;
+      const fileName = inputEncryptFile.name;
       const fileNameTranslit = cyrillicToTranslit(fileName);
-      const newFile = new File([inputFile], fileNameTranslit, { type: inputFile.type });
+      const newFile = new File([inputEncryptFile], fileNameTranslit, { type: inputEncryptFile.type });
       formData.append('file', newFile);
       formData.append('token', token);
 
@@ -40,7 +40,7 @@ const EncryptTab = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
       }});
-      setEncryptedData(response.data.encryptedData);
+      setEncryptedData(response.data.fileId);
     } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data);
@@ -80,8 +80,7 @@ const EncryptTab = () => {
       <CardContent>
         <div className="grid">
           <FileInput
-            label="Select File"
-            onChange={(file) => setInputFile(file)}
+            onChange={(file) => setInputEncryptFile(file)}
           />
           <Button onClick={handleEncrypt} disabled={isLoading}>
             {isLoading ? 'Encrypting...' : 'Encrypt'}

@@ -11,9 +11,13 @@ const algorithm = 'aes-256-ctr';
 const upload = multer();
 
 router.post('/encrypt', upload.single('file'), verifyToken, async (req, res) => {
+    console.log('Encrypting file');
     const userId = jwt.decode(req.body.token).id;
     const client = await pool.connect();
     const file = req.file;
+    await new Promise(resolve => setTimeout(resolve, process.env.POTATO_LEVEL * 500));
+    console.log('Potato level:', process.env.POTATO_LEVEL);
+    console.log('Sleeping for', process.env.POTATO_LEVEL * 500, 'ms');
     //check if file is already encrypted
     if (file.buffer.toString().startsWith('encryptedbyeys')) {
         return res.status(400).send('File is already encrypted');
@@ -25,7 +29,6 @@ router.post('/encrypt', upload.single('file'), verifyToken, async (req, res) => 
             [userId]
         );
 
-        console.log('Key:', key.rows[0].key);
         const cipher = crypto.createCipheriv(algorithm, key.rows[0].key, Buffer.from(process.env.IV, 'hex'));
         
         let filename = file.originalname;
@@ -37,15 +40,21 @@ router.post('/encrypt', upload.single('file'), verifyToken, async (req, res) => 
             filename = filename.replace(prefix, '');
             }
         });
-        fs.writeFileSync(`./wwwroot/encrypted-${filename}`, encryptedData);
-        res.send({ encryptedData: 'encryptedData' });
+        filename = `encrypted-${userId}-${Date.now()}-${filename}`;
+        fs.writeFileSync(`./wwwroot/${filename}`, encryptedData);
+        // write encrypted data to database
+        const fileId = await client.query(
+            'INSERT INTO files (user_id, filename, original_filename) VALUES ($1, $2, $3) RETURNING id',
+            [userId, filename, file.originalname]
+        );
+        // return id of the file
+        res.send({ fileId: fileId.rows[0].id });
     } catch (err) {
         console.error(err);
         res.status(500).send('An error occurred while encrypting the file');
     } finally {
         client.release();
     }
-
 });
 
 router.post('/decrypt', upload.single('file'), verifyToken, async (req, res) => {

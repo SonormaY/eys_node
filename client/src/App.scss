@@ -517,6 +517,10 @@ img, video{
           font-size: var(--normalFontSize);
         }
       }
+
+      .hidden-tab{
+        display: none;
+      }
     }
   }
   
