@@ -19,6 +19,11 @@ const DecryptTab = () => {
       setError('Please select a file to decrypt.');
       return;
     }
+    const fileSignature = await getFileSignature(inputFile);
+    if (!fileSignature.startsWith('encryptedbyeys')) {
+      setError('File is already decrypted');
+      return;
+    }
 
     setIsLoading(true);
 
@@ -37,6 +42,18 @@ const DecryptTab = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getFileSignature = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const text = new TextDecoder("utf-8").decode(reader.result);
+        resolve(text.slice(0, 14)); // Read only the first part of the file
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsArrayBuffer(file.slice(0, 14)); // Read a small part of the file
+    });
   };
 
   return (

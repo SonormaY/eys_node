@@ -52,10 +52,6 @@ router.post('/decrypt', upload.single('file'), verifyToken, async (req, res) => 
     const userId = jwt.decode(req.body.token).id;
     const client = await pool.connect();
     const file = req.file;
-    //check if file is already decrypted
-    if (!file.buffer.toString().startsWith('encryptedbyeys')) {
-        return res.status(400).send('File is already decrypted');
-    }
 
     try {
         const key = await client.query(

@@ -19,12 +19,21 @@ const EncryptTab = () => {
       setError('Please select a file to encrypt.');
       return;
     }
+    const fileSignature = await getFileSignature(inputFile);
+    if (fileSignature.startsWith('encryptedbyeys')) {
+      setError('File is already encrypted');
+      return;
+    }
 
     setIsLoading(true);
 
     try {
       const formData = new FormData();
-      formData.append('file', inputFile);
+      // if detect cyrillic symbols in file name, replace it with transliteration
+      const fileName = inputFile.name;
+      const fileNameTranslit = cyrillicToTranslit(fileName);
+      const newFile = new File([inputFile], fileNameTranslit, { type: inputFile.type });
+      formData.append('file', newFile);
       formData.append('token', token);
 
       const response = await axios.post(import.meta.env.VITE_API_URL + 'files/encrypt', formData, {
@@ -41,6 +50,26 @@ const EncryptTab = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getFileSignature = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const text = new TextDecoder("utf-8").decode(reader.result);
+        resolve(text.slice(0, 14)); // Read only the first part of the file
+      };
+      reader.onerror = () => reject(reader.error);
+      reader.readAsArrayBuffer(file.slice(0, 14)); // Read a small part of the file
+    });
+  };
+
+  const cyrillicToTranslit = (str) => {
+    const ua = {
+      'а': 'a', 'б': 'b', 'в': 'v', 'г': 'h', 'ґ': 'g', 'д': 'd', 'е': 'e', 'є': 'ye', 'ж': 'zh', 'з': 'z', 'и': 'y', 'і': 'i', 'ї': 'yi', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ь': '', 'ю': 'iu', 'я': 'ya',
+      'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'H', 'Ґ': 'G', 'Д': 'D', 'Е': 'E', 'Є': 'Ye', 'Ж': 'Zh', 'З': 'Z', 'И': 'Y', 'І': 'I', 'Ї': 'Yi', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ь': '', 'Ю': 'iu', 'Я': 'Ya',
+    };
+    return str.split('').map(char => ua[char] || char).join('');
   };
 
   return (
