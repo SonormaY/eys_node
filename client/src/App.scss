@@ -493,7 +493,7 @@ img, video{
         max-width: 600px;
         margin: 0 auto;
   
-        .encrypted-data {
+        .encrypted-data, .decrypted-data {
           margin-top: 1rem;
           padding: 1rem;
           background-color: var(--whiteColor);

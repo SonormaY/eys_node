@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from "./AuthContext";
 
 // Components
 import { Card, CardHeader, CardTitle, CardContent } from './Card';
 import { Button } from './Button';
 import { FileInput } from './FileInput';
 
-export const DecryptTab = () => {
+const DecryptTab = () => {
   const [inputFile, setInputFile] = useState(null);
   const [decryptedData, setDecryptedData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { token } = useContext(AuthContext);
 
   const handleDecrypt = async () => {
     if (!inputFile) {
@@ -23,7 +25,12 @@ export const DecryptTab = () => {
     try {
       const formData = new FormData();
       formData.append('file', inputFile);
-      const response = await axios.post('/api/decrypt', formData);
+      formData.append('token', token);
+      
+      const response = await axios.post(import.meta.env.VITE_API_URL + 'files/decrypt', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      }});
       setDecryptedData(response.data.decryptedData);
     } catch (err) {
       setError('An error occurred while decrypting the file.');

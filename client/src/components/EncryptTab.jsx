@@ -23,14 +23,21 @@ const EncryptTab = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL + 'files/encrypt', { 
-        fileName: inputFile.name,
-        file: inputFile,
-        token: token 
-      });
+      const formData = new FormData();
+      formData.append('file', inputFile);
+      formData.append('token', token);
+
+      const response = await axios.post(import.meta.env.VITE_API_URL + 'files/encrypt', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+      }});
       setEncryptedData(response.data.encryptedData);
     } catch (err) {
-      setError('An error occurred while encrypting the file.');
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError('An error occurred while encrypting the file.');
+      }
     } finally {
       setIsLoading(false);
     }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaUpload } from 'react-icons/fa';
 
+// maxSize is in bytes = 200MB
 export const FileInput = ({ label, onChange, className, maxSize = 200 * 1024 * 1024 }) => {
   const [error, setError] = useState(null);
   const [fileName, setFileName] = useState('');
@@ -44,8 +45,7 @@ export const FileInput = ({ label, onChange, className, maxSize = 200 * 1024 * 1
   };
 
   const handleClick = () => {
-    const fileInput = document.querySelector('.file-input');
-    fileInput.click();
+    document.querySelector('.file-input').click();
   };
 
   return (
