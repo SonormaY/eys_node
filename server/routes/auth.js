@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/db.config');
+const crypto = require('crypto');
 
 router.post('/register', async (req, res) => {
     const { email, password } = req.body;
@@ -34,17 +35,22 @@ router.post('/register', async (req, res) => {
         
         const hashedPassword = await bcrypt.hash(password, 10);
         
+        //create unique key for ecnryption
+        let key = Date.now().toString();
+        key = crypto.createHash('sha256').update(key).digest('base64').substr(0, 32);
+        
         const insertQuery = `
-            INSERT INTO users (email, username, passwd_hash, role)
-            VALUES ($1, $2, $3, $4)
-            RETURNING id, email, username, role
+            INSERT INTO users (email, username, passwd_hash, role, key)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING id, email, username, role, key
         `;
         
         const result = await client.query(insertQuery, [
             email,
             username,
             hashedPassword,
-            'user'
+            'user',
+            key
         ]);
         
         await client.query('COMMIT');

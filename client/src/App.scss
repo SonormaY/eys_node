@@ -520,81 +520,81 @@ img, video{
     }
   }
   
-  // Card Component
-  .card {
-    background-color: var(--whiteColor);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-  
-    .card-header {
-      padding: 1rem;
-      border-bottom: 1px solid var(--greyText);
-  
-      .card-title {
-        font-size: var(--h2FontSize);
-        color: var(--blackColor);
-      }
-    }
-  
-    .card-content {
-      padding: 1.5rem;
-    }
-  }
-  
-  // Button Component
-  .dashboard_btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--primaryColor);
-    color: var(--whiteColor);
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 1.2rem;
-    font-size: var(--normalFontSize);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  
-    &:hover {
-      background-color: var(--hoverColor);
-    }
-  
-    &:disabled {
-      background-color: var(--greyText);
-      cursor: not-allowed;
-    }
-  
-    .icon {
-      margin-left: 0.5rem;
-    }
-  }
-  
-  // Input Component
-  .input {
-    background-color: var(--inputColor);
-    border: none;
-    border-radius: 8px;
-    padding: 0.8rem 1rem;
-    font-size: var(--normalFontSize);
-    color: var(--blackColor);
-    outline: none;
-  
-    &::placeholder {
-      color: var(--greyText);
-    }
-  
-    &:focus {
-      border: 2px solid var(--primaryColor);
-    }
-  
-    .label {
-      display: block;
-      font-size: var(--smallFontSize);
+// Card Component
+.card {
+  background-color: var(--whiteColor);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  .card-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--greyText);
+
+    .card-title {
+      font-size: var(--h2FontSize);
       color: var(--blackColor);
-      margin-bottom: 0.5rem;
     }
   }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+}
+  
+// Button Component
+.dashboard_btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--primaryColor);
+  color: var(--whiteColor);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  font-size: var(--normalFontSize);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: var(--hoverColor);
+  }
+
+  &:disabled {
+    background-color: var(--greyText);
+    cursor: not-allowed;
+  }
+
+  .icon {
+    margin-left: 0.5rem;
+  }
+}
+  
+// Input Component
+.input {
+  background-color: var(--inputColor);
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-size: var(--normalFontSize);
+  color: var(--blackColor);
+  outline: none;
+
+  &::placeholder {
+    color: var(--greyText);
+  }
+
+  &:focus {
+    border: 2px solid var(--primaryColor);
+  }
+
+  .label {
+    display: block;
+    font-size: var(--smallFontSize);
+    color: var(--blackColor);
+    margin-bottom: 0.5rem;
+  }
+}
 
 .file-input-wrapper {
   display: flex;

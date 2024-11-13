@@ -5,5 +5,6 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     passwd_hash VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL
+    role VARCHAR(50) NOT NULL,
+    key VARCHAR(256) NOT NULL,
 );

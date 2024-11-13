@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from "./AuthContext";
 
 // Components
 import { Card, CardHeader, CardTitle, CardContent } from './Card';
@@ -11,6 +12,7 @@ const EncryptTab = () => {
   const [encryptedData, setEncryptedData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const { token } = useContext(AuthContext);
 
   const handleEncrypt = async () => {
     if (!inputFile) {
@@ -21,9 +23,11 @@ const EncryptTab = () => {
     setIsLoading(true);
 
     try {
-      const formData = new FormData();
-      formData.append('file', inputFile);
-      const response = await axios.post('/api/encrypt', formData);
+      const response = await axios.post(import.meta.env.VITE_API_URL + 'files/encrypt', { 
+        fileName: inputFile.name,
+        file: inputFile,
+        token: token 
+      });
       setEncryptedData(response.data.encryptedData);
     } catch (err) {
       setError('An error occurred while encrypting the file.');
