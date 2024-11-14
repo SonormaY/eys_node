@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 function verifyToken(req, res, next) {
-    const token = req.body.token || req.query.token || req.headers['x-access-token'];
+    const token = req.body.token || req.query.token || req.headers['x-access-token'] || req.params.token || req.headers.authorization.split(' ')[1];
     if (!token) return res.status(401).send('Access denied');
     try {
         const verified = jwt.verify(token, process.env.JWT_SECRET);
