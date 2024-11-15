@@ -21,6 +21,13 @@ function ensureSecure(req, res, next) {
   res.redirect('https://' + req.hostname + req.originalUrl);
 }
 
+app.use((req, res, next) => {
+ //print request url to console
+  console.log(req.url);
+
+next();
+});
+
 app.use(ensureSecure);
 app.use(express.json());
 app.use(function(req, res, next) {
