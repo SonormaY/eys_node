@@ -18,7 +18,7 @@ const AllEncryptionsTab = () => {
   useEffect(() => {
     const fetchWorkerData = async () => {
       try {
-        const response = await axios.get(import.meta.env.VITE_API_URL + 'workers', {
+        const response = await axios.get('http://localhost:3000/' + 'workers', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
