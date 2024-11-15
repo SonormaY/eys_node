@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AuthContext } from "./AuthContext";
 
@@ -7,11 +7,12 @@ import { Card, CardHeader, CardTitle, CardContent } from './Card';
 import { Button } from './Button';
 import { FileInput } from './FileInput';
 
+
 const EncryptTab = () => {
   const [inputEncryptFile, setInputEncryptFile] = useState(null);
-  const [encryptedData, setEncryptedData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [resultFileId, setResultFileId] = useState('');
   const { token } = useContext(AuthContext);
 
   const handleEncrypt = async () => {
@@ -24,7 +25,6 @@ const EncryptTab = () => {
       setError('File is already encrypted');
       return;
     }
-
     setIsLoading(true);
 
     try {
@@ -40,7 +40,7 @@ const EncryptTab = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
       }});
-      setEncryptedData(response.data.fileId);
+      setResultFileId(response.data.fileId);
     } catch (err) {
       if (err.response && err.response.data) {
         setError(err.response.data);
@@ -49,6 +49,45 @@ const EncryptTab = () => {
       }
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDownload = async () => {
+    if (!resultFileId) {
+      setError('No file to download');
+      return;
+    }
+
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + `service/download`, {
+        responseType: 'blob',
+        // header with token
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          id: resultFileId,
+        },        
+      });
+      const disposition = response.headers['content-disposition'];
+      let downloadFileName = 'encrypted_file';
+      if (disposition && disposition.includes('filename=')) {
+        downloadFileName = disposition.split('filename=')[1].replace(/"/g, ''); // Remove quotes if present
+      }
+      console.log('Download file:', downloadFileName);
+  
+      const url = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'encrypted-' + downloadFileName);
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError('An error occurred while downloading the file.');
+      }
     }
   };
 
@@ -72,6 +111,12 @@ const EncryptTab = () => {
     return str.split('').map(char => ua[char] || char).join('');
   };
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => setError(''), 4000);
+    }
+  }, [error]);
+
   return (
     <Card className="encrypt-tab">
       <CardHeader>
@@ -82,15 +127,12 @@ const EncryptTab = () => {
           <FileInput
             onChange={(file) => setInputEncryptFile(file)}
           />
-          <Button onClick={handleEncrypt} disabled={isLoading}>
-            {isLoading ? 'Encrypting...' : 'Encrypt'}
+          <Button onClick={handleEncrypt}>
+            Add file to encryption queue
           </Button>
-          {encryptedData && (
-            <div className="encrypted-data">
-              <h4>Encrypted Data:</h4>
-              <p>{encryptedData}</p>
-            </div>
-          )}
+          <Button onClick={handleDownload} disabled={!resultFileId || isLoading}>
+            {isLoading ? 'Encrypting...' : 'Download encrypted file'}
+          </Button>
           {error && <div className="error">{error}</div>}
         </div>
       </CardContent>
@@ -99,3 +141,4 @@ const EncryptTab = () => {
 };
 
 export default EncryptTab;
+

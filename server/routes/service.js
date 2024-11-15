@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const pool = require('../config/db.config');
 const crypto = require('crypto');
+const fs = require('fs');
+const verifyToken = require('../middleware/jwtMiddleware');
 
 router.post('/register', async (req, res) => {
     const { email, password } = req.body;
@@ -63,9 +65,12 @@ router.post('/register', async (req, res) => {
                 role: result.rows[0].role
             },
             process.env.JWT_SECRET,
-            { expiresIn: '2h' }
+            { expiresIn: '24h' }
         );
-        res.json({ token });
+        res.json({ 
+            token,
+            role: result.rows[0].role,
+        });
         
     } catch (err) {
         await client.query('ROLLBACK');
@@ -101,10 +106,13 @@ router.post('/login', async (req, res) => {
                         role: result.rows[0].role
                     },
                     process.env.JWT_SECRET,
-                    { expiresIn: '2h' }
+                    { expiresIn: '24h' }
                 );
                 
-                res.json({ token });
+                res.json({ 
+                    token,
+                    role: result.rows[0].role,
+                });
                 console.info('User logged in');
             } else {
                 res.send({ error: 'Wrong email/password combination' });
@@ -116,6 +124,54 @@ router.post('/login', async (req, res) => {
     } catch (err) {
         console.error('Error during login:', err);
         res.status(500).send({ error: 'Internal server error during login' });
+    } finally {
+        client.release();
+    }
+});
+
+router.get('/download', verifyToken, async (req, res) => {
+    const fileId = req.query.id;
+    const userId = jwt.decode(req.headers.authorization.split(' ')[1]).id;
+    const client = await pool.connect();
+
+    try {
+        const file = await client.query(
+            'SELECT user_id, filename, original_filename FROM files WHERE id = $1',
+            [fileId]
+        );
+
+        if (file.rows.length === 0) {
+            return res.status(404).send('File not found');
+        }
+        if (file.rows[0].user_id !== userId) {
+            return res.status(403).send('You do not have permission to download this file');
+        }
+        const originalFilename = file.rows[0].original_filename;
+        const data = await fs.promises.readFile(`./wwwroot/${file.rows[0].filename}`);
+        res.setHeader('Content-Disposition', `attachment; filename="${originalFilename}"`);
+        res.send(data);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred while downloading the file');
+    } finally {
+        client.release();
+    }
+});
+
+router.get('/history', verifyToken, async (req, res) => {
+    const userId = jwt.decode(req.headers.authorization.split(' ')[1]).id;
+    const client = await pool.connect();
+
+    try {
+        const history = await client.query(
+            'SELECT id, original_filename, created_at FROM files WHERE user_id = $1 ORDER BY id DESC',
+            [userId]
+        );
+
+        res.send({ history: history.rows });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('An error occurred while fetching the history');
     } finally {
         client.release();
     }

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { AuthContext } from "./AuthContext";
 
@@ -9,9 +9,9 @@ import { FileInput } from './FileInput';
 
 const DecryptTab = () => {
   const [inputDecryptFile, setInputDecryptFile] = useState(null);
-  const [decryptedData, setDecryptedData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [resultFileId, setResultFileId] = useState('');
   const { token } = useContext(AuthContext);
 
   const handleDecrypt = async () => {
@@ -19,9 +19,8 @@ const DecryptTab = () => {
       setError('Please select a file to decrypt.');
       return;
     }
-    const fileSignature = await getFileSignature(inputDecryptFile);
-    if (!fileSignature.startsWith('encryptedbyeys')) {
-      setError('File is already decrypted');
+    if (!inputDecryptFile.name.endsWith('.eys')) {
+      setError('File is not encrypted');
       return;
     }
 
@@ -36,7 +35,7 @@ const DecryptTab = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
       }});
-      setDecryptedData(response.data.decryptedData);
+      setResultFileId(response.data.fileId);
     } catch (err) {
       setError('An error occurred while decrypting the file.');
     } finally {
@@ -44,17 +43,50 @@ const DecryptTab = () => {
     }
   };
 
-  const getFileSignature = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const text = new TextDecoder("utf-8").decode(reader.result);
-        resolve(text.slice(0, 14)); // Read only the first part of the file
-      };
-      reader.onerror = () => reject(reader.error);
-      reader.readAsArrayBuffer(file.slice(0, 14)); // Read a small part of the file
-    });
+  const handleDownload = async () => {
+    if (!resultFileId) {
+      setError('No file to download');
+      return;
+    }
+
+    try {
+      const response = await axios.get(import.meta.env.VITE_API_URL + `service/download`, {
+        responseType: 'blob',
+        // header with token
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          id: resultFileId,
+        },        
+      });
+      const disposition = response.headers['content-disposition'];
+      let downloadFileName = 'encrypted_file';
+      if (disposition && disposition.includes('filename=')) {
+        downloadFileName = disposition.split('filename=')[1].replace(/"/g, ''); // Remove quotes if present
+      }
+      console.log('Download file:', downloadFileName);
+  
+      const url = window.URL.createObjectURL(response.data);
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'decrypted-' + downloadFileName);
+      link.click();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      if (err.response && err.response.data) {
+        setError(err.response.data);
+      } else {
+        setError('An error occurred while downloading the file.');
+      }
+    }
   };
+
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => setError(''), 4000);
+    }
+  }, [error]);
 
   return (
     <Card className="decrypt-tab">
@@ -66,15 +98,12 @@ const DecryptTab = () => {
           <FileInput
             onChange={(file) => setInputDecryptFile(file)}
           />
-          <Button onClick={handleDecrypt} disabled={isLoading}>
-            {isLoading ? 'Decrypting...' : 'Decrypt'}
+          <Button onClick={handleDecrypt}>
+            Add file to decryption queue
           </Button>
-          {decryptedData && (
-            <div className="decrypted-data">
-              <h4>Decrypted Data:</h4>
-              <p>{decryptedData}</p>
-            </div>
-          )}
+          <Button onClick={handleDownload} disabled={!resultFileId}>
+            {isLoading  ? 'Decrypting...' : 'Download last decrypted file'}
+          </Button>
           {error && <div className="error">{error}</div>}
         </div>
       </CardContent>
@@ -83,3 +112,4 @@ const DecryptTab = () => {
 };
 
 export default DecryptTab;
+

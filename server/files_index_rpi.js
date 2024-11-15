@@ -1,22 +1,35 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const serviceRoutes = require('./routes/service');
 const filesRoutes = require('./routes/files');
-const port = process.env.PORT || 3001;
+const fs = require('fs');
+const https = require('https');
 
-console.log(`I'm ${process.env.WORKER_ID} worker `);
+// load the certificate and key
+const privateKey = fs.readFileSync('./certs/key.pem', 'utf8');
+const certificate = fs.readFileSync('./certs/cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
+// create an https server
+const httpsServer = https.createServer(credentials, app);
+
+function ensureSecure(req, res, next) {
+  if (req.secure) {
+      return next();
+  }
+  // Redirect to HTTPS version of the URL
+  res.redirect('https://' + req.hostname + req.originalUrl);
+}
+
+app.use(ensureSecure);
 app.use(express.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.setHeader('Access-Control-Expose-Headers', 'Content-Disposition');
   next();
 });
 // Middleware to notify main process when a task starts
 app.use((req, res, next) => {
-  if (req.url == '/files/encrypt' || req.url == '/files/decrypt'){
     if (process.send) {
       process.send({ type: 'task_start' });
     }
@@ -27,18 +40,16 @@ app.use((req, res, next) => {
       }
     }
     );
-  }
   
   next();
 });
-app.use('/files', filesRoutes);
-app.use('/service', serviceRoutes);
+app.use('/', filesRoutes);
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://rpi4.uno',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Origin', 'Accept']
 }));
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`)
+httpsServer.listen(8442, () => {
+  console.log(`Server is running on port ${8442}`)
 })

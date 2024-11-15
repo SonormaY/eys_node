@@ -465,6 +465,10 @@ img, video{
                 color: var(--primaryColor);
               }
             }
+            
+            .hidden-entry{
+              display: none;
+            }
           }
 
           .logoutItem{
@@ -492,25 +496,7 @@ img, video{
         width: 100%;
         max-width: 600px;
         margin: 0 auto;
-  
-        .encrypted-data, .decrypted-data {
-          margin-top: 1rem;
-          padding: 1rem;
-          background-color: var(--whiteColor);
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-          h4 {
-            font-size: var(--h3FontSize);
-            margin-bottom: 0.5rem;
-          }
-  
-          p {
-            font-size: var(--normalFontSize);
-            word-break: break-all;
-          }
-        }
-  
+   
         .error {
           margin-top: 1rem;
           color: red;
@@ -543,6 +529,11 @@ img, video{
 
   .card-content {
     padding: 1.5rem;
+    
+    .error {
+      font-size: var(--h2FontSize);
+      margin-top: 1rem;
+    }
   }
 }
   
@@ -668,5 +659,75 @@ img, video{
 
   tr:hover {
     background-color: #ddd;
+  }
+
+  th:first-child, td:first-child {
+    width: 65%;
+    word-wrap: break-word;
+  }
+}
+
+.all-encryptions-tab {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .system-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+
+    .info-card {
+      background: var(--whiteColor);
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+
+      h3 {
+        color: var(--greyText);
+        font-size: var(--h3FontSize);
+        margin-bottom: 0.5rem;
+      }
+
+      p {
+        color: var(--blackColor);
+        font-size: var(--h1FontSize);
+        font-weight: 700;
+      }
+    }
+  }
+
+  .chart-container {
+    background: var(--whiteColor);
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 1.5rem;
+  }
+
+  .error {
+    color: red;
+    text-align: center;
+    padding: 2rem;
+    font-size: var(--h3FontSize);
+  }
+}
+
+// Media queries for responsive design
+@media screen and (max-width: 768px) {
+  .all-encryptions-tab {
+    .system-info {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .all-encryptions-tab {
+    .system-info {
+      grid-template-columns: 1fr;
+    }
   }
 }

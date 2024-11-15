@@ -33,7 +33,7 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const [registerStatus, setRegisterStatus] = useState('')
     const [statusHolder, setStatusHolder] = useState('message')
-    const { setToken, token, loading } = useContext(AuthContext);
+    const { setToken, token, loading, setRole } = useContext(AuthContext);
     const navigateTo = useNavigate()
 
     useEffect(() => {
@@ -71,14 +71,16 @@ const Register = () => {
             setStatusHolder('showMessage')
             return
         }
-        axios.post(import.meta.env.VITE_API_URL + 'auth/register', {
+        axios.post(import.meta.env.VITE_API_URL + 'service/register', {
             email: email,
             username: username,
             password: password
         }).then((response) => {
             if (response.data.token) {
                 setToken(response.data.token)
+                setRole(response.data.role)
                 localStorage.setItem('token', response.data.token)
+                localStorage.setItem('role', response.data.role)
                 navigateTo('/')
             }
             else if (response.data.error) {

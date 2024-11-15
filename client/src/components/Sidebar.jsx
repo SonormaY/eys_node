@@ -9,9 +9,8 @@ import { TbLockOpen, TbUsers, TbClipboardList } from "react-icons/tb";
 import { FiLogOut } from "react-icons/fi";
 
 const Sidebar = ({ onModuleChange }) => {
-
   const [activeModule, setActiveModule] = useState('encrypt');
-  const { setToken } = useContext(AuthContext); // Access setToken to clear token on logout
+  const { setToken, role, setRole } = useContext(AuthContext); 
   const navigate = useNavigate();
 
   const handleModuleClick = (module) => {
@@ -21,6 +20,7 @@ const Sidebar = ({ onModuleChange }) => {
 
   const handleLogout = () => {
     setToken(null);
+    setRole(null);
     localStorage.removeItem('token');
     navigate('/login'); // Redirect to login page after logout
   };
@@ -46,7 +46,7 @@ const Sidebar = ({ onModuleChange }) => {
               <span className="smallText">Encrypt</span>
             </div>
           </li>
-          <li className={`listItem ${activeModule === 'decrypt' ? 'active' : ''}`}>
+          <li className={`listItem ${activeModule === 'decrypt' ? 'active' : ''}` }>
             <div
               className="menuLink flex"
               onClick={() => handleModuleClick('decrypt')}
@@ -64,7 +64,7 @@ const Sidebar = ({ onModuleChange }) => {
               <span className="smallText">History</span>
             </div>
           </li>
-          <li className={`listItem ${activeModule === 'all-encryptions' ? 'active' : ''}`}>
+          {role === 'admin' ? <li className={`listItem ${activeModule === 'all-encryptions' ? 'active' : ''}`}>
             <div
               className="menuLink flex"
               onClick={() => handleModuleClick('all-encryptions')}
@@ -72,7 +72,7 @@ const Sidebar = ({ onModuleChange }) => {
               <TbUsers className="icon" />
               <span className="smallText">All Encryptions</span>
             </div>
-          </li>
+          </li> : null}
           <li className='logoutItem'>
             <div
               className="menuLink flex"

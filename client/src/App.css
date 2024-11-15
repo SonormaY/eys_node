@@ -375,6 +375,9 @@ img, video {
 .dashboard .sidebar .menuDiv .menuLists .listItem.active .menuLink {
   color: var(--primaryColor);
 }
+.dashboard .sidebar .menuDiv .menuLists .listItem .hidden-entry {
+  display: none;
+}
 .dashboard .sidebar .menuDiv .menuLists .logoutItem {
   padding: 0.2rem 1rem;
   width: 10%;
@@ -395,21 +398,6 @@ img, video {
   width: 100%;
   max-width: 600px;
   margin: 0 auto;
-}
-.dashboard .content .encrypt-tab .encrypted-data, .dashboard .content .encrypt-tab .decrypted-data, .dashboard .content .decrypt-tab .encrypted-data, .dashboard .content .decrypt-tab .decrypted-data {
-  margin-top: 1rem;
-  padding: 1rem;
-  background-color: var(--whiteColor);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.dashboard .content .encrypt-tab .encrypted-data h4, .dashboard .content .encrypt-tab .decrypted-data h4, .dashboard .content .decrypt-tab .encrypted-data h4, .dashboard .content .decrypt-tab .decrypted-data h4 {
-  font-size: var(--h3FontSize);
-  margin-bottom: 0.5rem;
-}
-.dashboard .content .encrypt-tab .encrypted-data p, .dashboard .content .encrypt-tab .decrypted-data p, .dashboard .content .decrypt-tab .encrypted-data p, .dashboard .content .decrypt-tab .decrypted-data p {
-  font-size: var(--normalFontSize);
-  word-break: break-all;
 }
 .dashboard .content .encrypt-tab .error, .dashboard .content .decrypt-tab .error {
   margin-top: 1rem;
@@ -436,6 +424,10 @@ img, video {
 }
 .card .card-content {
   padding: 1.5rem;
+}
+.card .card-content .error {
+  font-size: var(--h2FontSize);
+  margin-top: 1rem;
 }
 
 .dashboard_btn {
@@ -547,4 +539,61 @@ img, video {
 }
 .custom-table tr:hover {
   background-color: #ddd;
+}
+.custom-table th:first-child, .custom-table td:first-child {
+  width: 65%;
+  word-wrap: break-word;
+}
+
+.all-encryptions-tab {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.all-encryptions-tab .system-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.all-encryptions-tab .system-info .info-card {
+  background: var(--whiteColor);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+.all-encryptions-tab .system-info .info-card h3 {
+  color: var(--greyText);
+  font-size: var(--h3FontSize);
+  margin-bottom: 0.5rem;
+}
+.all-encryptions-tab .system-info .info-card p {
+  color: var(--blackColor);
+  font-size: var(--h1FontSize);
+  font-weight: 700;
+}
+.all-encryptions-tab .chart-container {
+  background: var(--whiteColor);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 1.5rem;
+}
+.all-encryptions-tab .error {
+  color: red;
+  text-align: center;
+  padding: 2rem;
+  font-size: var(--h3FontSize);
+}
+
+@media screen and (max-width: 768px) {
+  .all-encryptions-tab .system-info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media screen and (max-width: 480px) {
+  .all-encryptions-tab .system-info {
+    grid-template-columns: 1fr;
+  }
 }/*# sourceMappingURL=App.css.map */

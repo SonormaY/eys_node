@@ -5,10 +5,10 @@ import DecryptTab from './DecryptTab';
 import HistoryTab from './HistoryTab';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from "./AuthContext";
-// import AllEncryptionsTab from './AllEncryptionsTab';
+import AllEncryptionsTab from './AllEncryptionsTab';
 
 const Dashboard = () => {
-  const { token, loading } = useContext(AuthContext);
+  const { token, loading, role } = useContext(AuthContext);
   const [currentModule, setCurrentModule] = useState('encrypt');
   if (loading) {
     return null;
@@ -28,7 +28,7 @@ const Dashboard = () => {
         <div style={{ display: currentModule === 'encrypt' ? 'block' : 'none' }}><EncryptTab /></div>
         <div style={{ display: currentModule === 'decrypt' ? 'block' : 'none' }}><DecryptTab /></div>
         <div style={{ display: currentModule === 'history' ? 'block' : 'none' }}><HistoryTab /></div>
-        {/* <div><AllEncryptionsTab /></div> */}
+        {role === 'admin' && <div style={{ display: currentModule === 'all-encryptions' ? 'block' : 'none' }}><AllEncryptionsTab /></div>}
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ const Login = () => {
     const [loginPassword, setLoginPassword] = useState('')
     const [loginStatus, setLoginStatus] = useState('')
     const [statusHolder, setStatusHolder] = useState('message')
-    const { setToken, token, loading } = useContext(AuthContext);
+    const { setToken, token, loading, setRole } = useContext(AuthContext);
     const navigateTo = useNavigate()
     
 
@@ -45,13 +45,15 @@ const Login = () => {
             setStatusHolder('showMessage')
             return
         }   
-        axios.post(import.meta.env.VITE_API_URL + 'auth/login', {
+        axios.post(import.meta.env.VITE_API_URL + 'service/login', {
             email: loginEmail,
             password: loginPassword
         }).then((response) => {
             if (response.data.token) {
                 setToken(response.data.token)
+                setRole(response.data.role)
                 localStorage.setItem('token', response.data.token)
+                localStorage.setItem('role', response.data.role)
                 navigateTo('/')
             }
             console.log(response)
