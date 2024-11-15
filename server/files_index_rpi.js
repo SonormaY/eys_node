@@ -43,7 +43,7 @@ app.use((req, res, next) => {
   
   next();
 });
-app.use('/', filesRoutes);
+app.use('/api/files', filesRoutes);
 app.use(cors({
   origin: 'https://rpi4.uno',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],

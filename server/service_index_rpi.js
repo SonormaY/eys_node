@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-app.use('/', serviceRoutes);
+app.use('/api/service', serviceRoutes);
 app.use(cors({
   origin: 'https://rpi4.uno',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
