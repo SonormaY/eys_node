@@ -10,7 +10,7 @@ echo -e "${YELLOW}Starting deployment of servers...${NC}"
 
 # Step 4: Run service server in tmux session
 echo -e "${YELLOW}Starting service server in tmux session...${NC}"
-cd ../server || exit
+cd server || exit
 if tmux ls | grep -q "^service-server:"; then
   tmux kill-session -t service-server
   echo -e "${GREEN}Existing tmux session 'service-server' terminated.${NC}"
