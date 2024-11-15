@@ -52,8 +52,10 @@ cluster.on('message', async (worker, message) => {
 cluster.on('exit', (worker, code, signal) => {
     console.log(`Worker ${worker.id} died with code ${code} and signal ${signal}`);
     workerTasks.delete(worker.id);
+    freeIDs.push(worker.id);
+    freeIDs.sort();
     const newWorker = cluster.fork({ 
-        WORKER_ID: ++currentWorkerCount
+        WORKER_ID: freeIDs.shift()
         });
     workerTasks.set(newWorker.id, 0);
     });
