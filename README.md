@@ -16,6 +16,10 @@ EYS is a secure file encryption application that helps you protect your sensitiv
 - 📁 Secure file storage and management
 - 🔄 Easy file encryption/decryption
 - 💻 Clean and intuitive user interface
+  
+## 🖼️ Scheme
+
+![EYS Scheme](./scheme.excalidraw.svg)
 
 ## 📋 Prerequisites for build
 
